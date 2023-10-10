@@ -367,7 +367,6 @@ class GQCNNTF(object):
         """
         with self._graph.as_default():
             # Create new tf checkpoint reader.
-            #ckpt_file ="/home/aurmr/workspaces/manipulation_policy/src/grasp-point-selection-sim/gqcnn/models/GQCNN-3.0/model.ckpt"
             reader = tf.compat.v1.train.NewCheckpointReader(ckpt_file)
 
             # Create empty weight object.

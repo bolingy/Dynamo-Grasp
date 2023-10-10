@@ -104,7 +104,7 @@ setup(
     long_description=open("README.md").read(),
     long_description_content_type="text/markdown",
     license="MIT",
-    url="https://github.com/bolingy/grasp-point-selection-sim/tree/dynamo_grasp_sf",
+    url="https://github.com/bolingy/Dynamo-Grasp/tree/dynamo_grasp_sf",
     classifiers=[
         "Development Status :: 3 - Alpha",
         "License :: OSI Approved :: MIT License",
