@@ -1,0 +1,17 @@
+# Ignore compiled Python files
+*.pyc
+
+# Ignore Python egg-info directories (typically contain package metadata for package distribution)
+*.egg-info
+
+# Ignore Python cache files/directories (compiled Python files)
+__pycache__/
+
+# Ignore build directory (typically contains compiled files and various build outputs)
+build/
+
+# Ignore data directory (typically contains data and model files)
+data/
+models/
+wandb/
+scenario_grasp_configurations/
