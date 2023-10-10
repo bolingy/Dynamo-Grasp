@@ -7,8 +7,9 @@
 # Ignore Python cache files/directories (compiled Python files)
 __pycache__/
 
-# Ignore build directory (typically contains compiled files and various build outputs)
-build/
+# Ignore source and doctrees directory (typically contains markdown and configuration files
+source/
+doctrees/
 
 # Ignore data directory (typically contains data and model files)
 data/
