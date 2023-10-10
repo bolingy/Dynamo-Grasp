@@ -1,9 +1,9 @@
 # Getting Started
 
 ## Data Collection
-Before running the dynamo_grasp.sh script, you need to create a folder in the grasp-point-selection-sim folder. This folder will be used to store the data collected from the simulation. You can create this folder using the following command:
+Before executing the `dynamo_grasp.sh` script, you must create a folder within the Dynamo-Grasp directory. This folder will serve as the storage location for data collected from the simulation. To create this folder, use the following command:
 ```bash
-mkdir <PATH_TO_YOUR_WORKSPACE>/grasp-point-selection-sim/scenario_grasp_configurations
+mkdir <PATH_TO_YOUR_WORKSPACE>/Dynamo-Grasp/scenario_grasp_configurations
 ```
 
 Kickstart your experience with a basic usage example:
