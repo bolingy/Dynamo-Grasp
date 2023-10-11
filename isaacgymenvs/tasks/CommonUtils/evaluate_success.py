@@ -71,8 +71,10 @@ class EvlauateSuccess:
                     self.object_target_id[env_count],
                     offset,
                 )
-                print(env_count, " force: ", self.force_pre_physics)
-                print(env_count, " suction gripper ", score_gripper)
+                self.logger.info(
+                    f"In environment {env_count},\n            force: {self.force_pre_physics},\n            suction deformation score: {score_gripper}"
+                )
+                # self.logger.info(f"environment {env_count}, suction deformation score: {score_gripper}")
 
                 self.frame_count_contact_object[env_count] = 1
 
@@ -83,7 +85,10 @@ class EvlauateSuccess:
                 self.force_pre_physics > torch.tensor(10)
                 and self.action_contrib[env_count] == 1
             ):
-                print(env_count, " force due to collision: ", self.force_pre_physics)
+                self.logger.info(
+                    f"enviornment {env_count} reset, because of collision between arm and environment: ",
+                    self.force_pre_physics,
+                )
                 env_list_reset_arm_pose = torch.cat(
                     (env_list_reset_arm_pose, torch.tensor([env_count])), axis=0
                 )

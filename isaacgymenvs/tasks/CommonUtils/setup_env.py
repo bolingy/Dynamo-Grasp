@@ -67,9 +67,7 @@ class EnvSetup:
 
         # Load object models from the object list with domain randomization
         self.object_models = []
-        objects_file = open(
-            f"misc/object_list_domain_randomization.txt", "r"
-        )
+        objects_file = open(f"misc/object_list_domain_randomization.txt", "r")
         object_config = objects_file.readlines()
 
         objects = []
@@ -100,8 +98,8 @@ class EnvSetup:
         self.num_ur16e_bodies = self.gym.get_asset_rigid_body_count(ur16e_asset)
         self.num_ur16e_dofs = self.gym.get_asset_dof_count(ur16e_asset)
 
-        print("num ur16e bodies: ", self.num_ur16e_bodies)
-        print("num ur16e dofs: ", self.num_ur16e_dofs)
+        self.logger.info(f"num ur16e bodies: {self.num_ur16e_bodies}")
+        self.logger.info(f"num ur16e dofs: {self.num_ur16e_dofs}")
 
         # Set ur16e dof properties
         ur16e_dof_props = self.gym.get_asset_dof_properties(ur16e_asset)
@@ -524,8 +522,8 @@ class EnvSetup:
         self.dexnet_object = dexnet3(self.camera_intrinsics_back_cam)
         self.dexnet_object.load_dexnet_model()
 
-        print("focal length in x axis: ", self.fx_back_cam)
-        print("focal length in y axis: ", self.fy_back_cam)
+        self.logger.info(f"focal length in x axis: {self.fx_back_cam}")
+        self.logger.info(f"focal length in y axis: {self.fy_back_cam}")
         cam_proj_gripper = torch.tensor(
             self.gym.get_camera_proj_matrix(
                 self.sim, self.envs[0], self.camera_handles[0][1]

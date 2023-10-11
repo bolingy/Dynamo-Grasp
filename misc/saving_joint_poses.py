@@ -9,4 +9,3 @@ joint_poses = torch.tensor(
 
 torch.save(joint_poses, "misc/joint_poses.pt")
 joints = torch.load("misc/joint_poses.pt")
-print(joints)

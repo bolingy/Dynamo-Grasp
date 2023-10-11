@@ -29,7 +29,7 @@ class ErrorCalculator:
                 (env_list_reset_objects, torch.tensor([env_count])), axis=0
             )
             self.object_pose_check_list[env_count] -= torch.tensor(1)
- 
+
         # Spawning objects until they acquire stable pose and also doesn't falls down
         if (
             (self.frame_count[env_count] == self.COOLDOWN_FRAMES)
@@ -40,10 +40,10 @@ class ErrorCalculator:
                 env_count, env_complete_reset
             )
 
-            # Check if the environment returned from reset and the frame for that enviornment is 
+            # Check if the environment returned from reset and the frame for that enviornment is
             # equal to the COOLDOWN_FRAMES
             if env_count not in env_complete_reset:
-                # Running DexNet 3.0 after investigating the pose error of the objects for sampling 
+                # Running DexNet 3.0 after investigating the pose error of the objects for sampling
                 # grasp points
                 (
                     env_list_reset_arm_pose,
@@ -181,10 +181,8 @@ class ErrorCalculator:
             env_list_reset_objects = torch.cat(
                 (env_list_reset_objects, torch.tensor([env_count])), axis=0
             )
-            print(
-                env_count,
-                _all_object_pose_error,
-                "reset because of object collision before contact",
+            self.logger.info(
+                f"{env_count} environment reset because of object collision before contact with target object",
             )
             self.save_config_grasp_json(env_count, False, torch.tensor(0), True)
         # Storing current pose of all objects
@@ -222,9 +220,9 @@ class ErrorCalculator:
         """
         Identify and manage unintended interactions with non-target objects.
 
-        This function monitors the movement of all non-target objects within 
-        a given environment. If movement is detected without contact with the 
-        target object, it resets the environment using the store pose. 
+        This function monitors the movement of all non-target objects within
+        a given environment. If movement is detected without contact with the
+        target object, it resets the environment using the store pose.
         """
         _all_object_pose_error = torch.tensor(0.0).to(self.device)
         try:
@@ -252,8 +250,8 @@ class ErrorCalculator:
             env_list_reset_objects = torch.cat(
                 (env_list_reset_objects, torch.tensor([env_count])), axis=0
             )
-            print(
-                f"Object in environment {env_count} moved without contact to target object by {_all_object_pose_error} meters"
+            self.logger.info(
+                f"Object in environment {env_count} moved without contact to target object by {_all_object_pose_error:2f} meters"
             )
 
             self.save_config_grasp_json(env_count, False, torch.tensor(0), True)
@@ -262,15 +260,13 @@ class ErrorCalculator:
         self, env_count, env_list_reset_arm_pose, env_list_reset_objects
     ):
         """
-        detect the arm angle insertion error and reset the environment if the arm is not 
+        detect the arm angle insertion error and reset the environment if the arm is not
         in the correct orientation with respect to pre grasp psoe
         """
         if self.action_contrib[env_count] == 0:
             angle_error = quaternion_to_euler_angles(
                 self._eef_state[env_count][3:7], "XYZ", degrees=False
-            ) - self.grasp_angle[env_count].to(
-                self.device
-            )
+            ) - self.grasp_angle[env_count].to(self.device)
             if torch.max(torch.abs(angle_error)) > torch.deg2rad(torch.tensor(10.0)):
                 # encountered the arm insertion constraint
                 env_list_reset_arm_pose = torch.cat(
@@ -279,7 +275,9 @@ class ErrorCalculator:
                 env_list_reset_objects = torch.cat(
                     (env_list_reset_objects, torch.tensor([env_count])), axis=0
                 )
-                print(env_count, "reset because of arm insertion angular constraint")
+                self.logger.info(
+                    f"{env_count} environment reset because of arm insertion angular constraint"
+                )
 
                 self.save_config_grasp_json(env_count, False, torch.tensor(0), True)
 
@@ -322,7 +320,7 @@ class ErrorCalculator:
                 self.object_target_id[env_count],
             )
         except Exception as e:
-            print(e)
+            self.logger.warning(e)
             contact_exist = torch.tensor(0)
         # center pixel of the griper camera
         mask_point_cam = segmask_gripper[

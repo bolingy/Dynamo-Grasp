@@ -54,7 +54,11 @@
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Dataset Information</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Dataset</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Dataset</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#raw-dataset">Raw Dataset</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#provided-dataset">Provided Dataset</a></li>
+</ul>
+</li>
 </ul>
 <p class="caption" role="heading"><span class="caption-text">Training models</span></p>
 <ul>
@@ -91,6 +95,23 @@
              
   <section id="dataset">
 <h1>Dataset<a class="headerlink" href="#dataset" title="Permalink to this heading"></a></h1>
+<section id="raw-dataset">
+<h2>Raw Dataset<a class="headerlink" href="#raw-dataset" title="Permalink to this heading"></a></h2>
+<p>Running the <code class="docutils literal notranslate"><span class="pre">'dynamo_grasp.sh</span></code> script will generate raw data in the <code class="docutils literal notranslate"><span class="pre">scenario_grasp_configurations</span></code> folder. An example set, <code class="docutils literal notranslate"><span class="pre">test_grasp_data</span></code> is provided to illustrate the format of the raw data. The raw data is organized as follows:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>depth_image_*.npy<span class="w"> </span>-<span class="w"> </span>Depth<span class="w"> </span>image<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>scene
+json_data_*.json<span class="w"> </span>-<span class="w"> </span>Json<span class="w"> </span>file<span class="w"> </span>containing<span class="w"> </span>the<span class="w"> </span>properties<span class="w"> </span>of<span class="w"> </span>grasp<span class="w"> </span>point,<span class="w"> </span>force<span class="w"> </span>and<span class="w"> </span>objects<span class="w"> </span><span class="k">in</span><span class="w"> </span>the<span class="w"> </span>scene
+rgb_*.npy<span class="w"> </span>-<span class="w"> </span>RGB<span class="w"> </span>image<span class="o">(</span>numpy<span class="w"> </span>format<span class="o">)</span><span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>scene
+rgb_*.png<span class="w"> </span>-<span class="w"> </span>RGB<span class="w"> </span>image<span class="o">(</span>png<span class="w"> </span>format<span class="o">)</span><span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>scene
+segmask_*.npy<span class="w"> </span>-<span class="w"> </span>Segmentation<span class="w"> </span>mask<span class="w"> </span>of<span class="w"> </span>the<span class="w"> </span>scene
+</pre></div>
+</div>
+<p>depth_image_&lt;<strong>env_id</strong>&gt;_&lt;<strong>config_count</strong>&gt;.npy <br/>
+Here <code class="docutils literal notranslate"><span class="pre">env_id</span></code> is the environment id, and <code class="docutils literal notranslate"><span class="pre">config_count</span></code> is the number of configurations for that environment. <br/>
+json_data_&lt;<strong>env_id</strong>&gt;_&lt;<strong>grasp_count</strong>&gt;_&lt;<strong>config_count</strong>&gt;.json <br/>
+Here <code class="docutils literal notranslate"><span class="pre">grasp_count</span></code> indicates the number of grasp points for those configurations. <br/></p>
+</section>
+<section id="provided-dataset">
+<h2>Provided Dataset<a class="headerlink" href="#provided-dataset" title="Permalink to this heading"></a></h2>
 <p>Link to the dataset: <a class="reference external" href="https://drive.google.com/file/d/16CvCuETpmtBYbqEcMIOIJCxDMaO8c4Uu/view?usp=sharing">Prcessed_Data.zip</a> <br/>
 This dataset consists of inputs that include 4 channels: 3D point clouds and a segmentation mask. Grasp labels consist of a zero-background image with float values at each sampled point.</p>
 <p>The dataset is organized as follows:</p>
@@ -99,11 +120,13 @@ This dataset consists of inputs that include 4 channels: 3D point clouds and a s
 *_input_augment2_*.npy<span class="w"> </span>-<span class="w"> </span>Augmented<span class="w"> </span>input<span class="w"> </span>data<span class="w"> </span><span class="o">(</span>flipping<span class="w"> </span>the<span class="w"> </span>input<span class="w"> </span>image<span class="o">)</span>,<span class="w"> </span>corresponding<span class="w"> </span>flipped<span class="w"> </span>label<span class="w"> </span>image<span class="w"> </span>is<span class="w"> </span>*_label_flip_*.npy
 </pre></div>
 </div>
-<p>The naming of the files is as follows:<br/>
+<p>File naming adheres to the following pattern: <br/>
 &lt;<strong>file_order</strong>&gt;_input_data_&lt;<strong>env_id</strong>&gt;_&lt;<strong>config_count</strong>&gt;.npy <br/>
-Here <code class="docutils literal notranslate"><span class="pre">file_order</span></code> is the order of the paths added in the <code class="docutils literal notranslate"><span class="pre">process_raw_files.py</span></code> file. <code class="docutils literal notranslate"><span class="pre">env_id</span></code> is the environment id and <code class="docutils literal notranslate"><span class="pre">config_count</span></code> is the number of configurations for that environment.</p>
-<p><code class="docutils literal notranslate"><span class="pre">Processed_Data.zip</span></code> dataset is obtained by running <code class="docutils literal notranslate"><span class="pre">pre_processing</span></code> file after collecting raw data from the simulation.</p>
-<p>In our simulation setup, we have two cameras: one for main sampling points and the other is embedded in the suction to measure suction deformation score more accurately. We utilize images from the back camera for our dataset collection.</p>
+Here <code class="docutils literal notranslate"><span class="pre">file_order</span></code> refers to the order of the paths added in the <code class="docutils literal notranslate"><span class="pre">process_raw_files.py</span></code> file. <br/>
+The same order is followed for augmented data.</p>
+<p><code class="docutils literal notranslate"><span class="pre">Processed_Data.zip</span></code> dataset is obtained by running the <code class="docutils literal notranslate"><span class="pre">process_raw_files.py</span></code> file after collecting raw data from the simulation.</p>
+<p>In our simulation setup, we use two cameras: one for main sampling points and another embedded in the suction to more accurately measure suction deformation score. For dataset collection, we utilize images from the back camera.</p>
+</section>
 </section>
 
 

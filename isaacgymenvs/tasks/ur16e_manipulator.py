@@ -1,4 +1,5 @@
 import torch
+import logging
 from isaacgymenvs.utils.torch_jit_utils import *
 
 
@@ -79,6 +80,13 @@ class UR16eManipulation(
         force_render,
         data_path=None,
     ):
+        # Configure logging
+        logging.basicConfig(level=logging.INFO)
+        # Create a file handler
+        handler = logging.FileHandler('/tmp/dynamo_grasp_log.txt')
+        self.logger = logging.getLogger("DYNAMO-GRASP")
+        self.logger.addHandler(handler)
+
         InitVariablesConfigs.__init__(
             self,
             cfg,
@@ -265,8 +273,8 @@ class UR16eManipulation(
                 else:
                     self.save_config_grasp_json(env_count, False, torch.tensor(0), True)
 
-            print(f"timeout reset for environment {env_ids}")
-            pos = self.reset_pre_grasp_pose(env_ids)
+            self.logger.info(f"timeout reset for environment {env_ids}")
+            pos = self.reset_random_pick_pose(env_ids)
             self.deploy_actions(env_ids, pos)
             self.reset_object_pose(env_ids)
 

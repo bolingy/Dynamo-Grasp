@@ -125,7 +125,6 @@ class InitVariablesConfigs(VecTask):
         # pose error threshold for object to be considered stable
 
         # Data path to store the data
-        print(self.data_path)
         self.data_path = self.data_path or os.path.expanduser("~/temp/grasp_data/")
         for env_number in range(self.num_envs):
             new_dir_path = os.path.join(self.data_path, f"{env_number}/")
@@ -156,7 +155,7 @@ class InitVariablesConfigs(VecTask):
         self.object_pose_check_list = torch.ones(self.num_envs)
         self.object_target_id = torch.zeros(self.num_envs).type(torch.int)
         self.ee_vel = torch.ones(self.num_envs) * self.DEFAULT_EE_VEL
-        print("No. of environments: ", self.num_envs)
+        self.logger.info(f"No. of environments: {self.num_envs}")
 
         # Parameter storage and trackers for each environments
         self.suction_deformation_score_temp = torch.Tensor()

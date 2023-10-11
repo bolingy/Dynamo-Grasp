@@ -30,9 +30,18 @@ import time
 
 from vit_pytorch.efficient import ViT
 import json
+import logging
 
-print(f"Torch: {torch.__version__}")
-print(torch.cuda.is_available())
+
+# Configure logging
+logging.basicConfig(level=logging.INFO)
+# Create a file handler
+handler = logging.FileHandler('/tmp/dynamo_grasp_train_log.txt')
+logger = logging.getLogger("DYNAMO-GRASP-TRAINING")
+logger.addHandler(handler)
+
+logger.info(f"Torch: {torch.__version__}")
+logger.info(torch.cuda.is_available())
 
 # Training settings
 batch_size = 128
@@ -211,7 +220,7 @@ class ViT_grasp(nn.Module):
 
         num_patches = (image_height // patch_height) * (image_width // patch_width)
         patch_dim = channels * patch_height * patch_width
-        print(num_patches, patch_dim)
+        logger.info(f"{num_patches}, {patch_dim}")
 
         assert pool in {
             "cls",
@@ -414,20 +423,18 @@ class Transformer(nn.Module):
 data_dir = "src/data/Processed_Data"
 data_list = glob.glob(os.path.join(data_dir, "*/*_input*.npy"), recursive=True)
 
-print("data size:", len(data_list))
+logger.info(f"data size: {len(data_list)}")
 random.shuffle(data_list)
 data_len = len(data_list)
 train_list = data_list[: int(data_len)]
 train_list, valid_list = train_test_split(train_list, test_size=0.2, random_state=seed)
-print(f"Train Data: {len(train_list)}")
-print(f"Validation Data: {len(valid_list)}")
+logger.info(f"Train Data: {len(train_list)}")
+logger.info(f"Validation Data: {len(valid_list)}")
 
 train_data = GraspDataset(train_list, transform=train_transforms)
 valid_data = GraspDataset(valid_list, transform=test_transforms)
 train_loader = DataLoader(dataset=train_data, batch_size=batch_size, shuffle=True)
 valid_loader = DataLoader(dataset=valid_data, batch_size=batch_size, shuffle=True)
-print(len(train_data), len(train_loader))
-print(len(valid_data), len(valid_loader))
 
 
 # effective transformer
@@ -480,7 +487,7 @@ except:
     pass
 
 total_params = sum(p.numel() for p in model.parameters())
-print(f"Number of parameters: {total_params}")
+logger.info(f"Number of parameters: {total_params}")
 
 # Y_max are the n highest scored grasp points on an object
 Y_max = 15
@@ -609,7 +616,7 @@ for epoch in range(epochs):
             epoch_val_loss += val_loss / len(valid_loader)
 
     if (epoch + 1) % 10 == 0 or epoch == 0:
-        print(
+        logger.info(
             f"Epoch : {epoch+1} - loss : {epoch_loss:.4f} - acc: {epoch_accuracy:.4f} - val_loss : {epoch_val_loss:.4f} - val_acc: {epoch_val_accuracy:.4f}"
         )
         seconds = time.time()

@@ -15,7 +15,6 @@ class model_lib(object):
         self._model_name_list = []
         self._model = {}
         self.dir = os.path.dirname(__file__) + '/models'
-        print("loading model from {}".format(self.dir))
         self.detect_models()
         self.load_data()
 
@@ -41,7 +40,6 @@ class model_lib(object):
         """
         num = len(self._model_name_list)
         random_name = self._model_name_list[random.randint(0, num)]
-        print("model {} is selected".format(random_name))
         
         return self._model[random_name]
 
@@ -59,13 +57,3 @@ class model_lib(object):
 
     def __getitem__(self, item):
         return self._model[item]
-
-
-# test
-"""
-if __name__ == "__main__":
-    model = model_lib()
-    print(model.model_name_lib[10])
-    print(model.random)
-    print(model['pen_container_1'])
-"""

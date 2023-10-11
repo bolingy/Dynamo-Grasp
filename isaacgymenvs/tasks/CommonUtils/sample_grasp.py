@@ -52,7 +52,7 @@ class SampleGrasp:
                 torch.count_nonzero(self.xyz_point[env_count]) < 1
             ):
                 # error due to illegal 3d coordinate
-                print("xyz point error", self.xyz_point[env_count])
+                self.logger.info(f"illegal 3d coordinate in environment {env_count}")
                 env_list_reset_arm_pose = torch.cat(
                     (env_list_reset_arm_pose, torch.tensor([env_count])), axis=0
                 )
@@ -66,7 +66,9 @@ class SampleGrasp:
             env_complete_reset = torch.cat(
                 (env_complete_reset, torch.tensor([env_count])), axis=0
             )
-            print("xyz error in env ", env_count, " and the error is ", error)
+            self.logger.warning(
+                f"illegal environment configuration in environment {env_count}, and the error is {error}"
+            )
 
         return env_list_reset_arm_pose, env_list_reset_objects, env_complete_reset
 
@@ -199,8 +201,7 @@ class SampleGrasp:
                 self.unsorted_grasps_and_predictions,
             ) = self.dexnet_object.inference(depth_img_dexnet, segmask_dexnet, None)
             max_num_grasps = len(self.grasps_and_predictions)
-            max_num_grasps = 1
-            print(
+            self.logger.info(
                 f"For environment {env_count} the number of grasp samples were {max_num_grasps}"
             )
             self.suction_deformation_score_temp = torch.Tensor()
@@ -273,12 +274,12 @@ class SampleGrasp:
                     (env_list_reset_objects, torch.tensor([env_count])), axis=0
                 )
             else:
-                print("No sample points")
+                self.logger.error("No sample points")
                 env_complete_reset = torch.cat(
                     (env_complete_reset, torch.tensor([env_count])), axis=0
                 )
         except Exception as e:
-            print("dexnet error: ", e)
+            self.logger.error(f"dexnet error: {e}")
             env_complete_reset = torch.cat(
                 (env_complete_reset, torch.tensor([env_count])), axis=0
             )

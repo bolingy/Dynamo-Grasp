@@ -31,7 +31,8 @@ class EnvReset:
             object_set = range(1, self.object_count_unique + 1)
 
             selected_object = np.random.choice(
-                object_set, p=None, size=random_number, replace=False)
+                object_set, p=None, size=random_number, replace=False
+            )
 
             list_objects_domain_randomizer = torch.tensor([])
             for object_count in selected_object:
@@ -69,7 +70,9 @@ class EnvReset:
             self.selected_object_env[env_count] = list_objects_domain_randomizer
             self.object_pose_store[env_count] = object_list_env
 
-        print("Object configuration in each bin: ", self.selected_object_env)
+        self.logger.info(
+            f"Object configuration in each bin: {self.selected_object_env}"
+        )
         pos = tensor_clamp(
             self.ur16e_default_dof_pos.unsqueeze(0),
             self.ur16e_dof_lower_limits.unsqueeze(0),
@@ -180,7 +183,7 @@ class EnvReset:
             [0.1, 0.1, 0.1, 0.5, 0.5, 0.5], device=self.device
         ).unsqueeze(0)
 
-    def reset_pre_grasp_pose(self, env_ids):
+    def reset_random_pick_pose(self, env_ids):
         """
         Resetting the pre grasp pose by randomly selecting the pre grasp pose from the
         list of pre grasp poses (for now there are only 2 pre grasp poses)
@@ -206,7 +209,7 @@ class EnvReset:
         self.reset_object_pose(env_ids)
 
     def reset_env_with_log(self, env_count, message, env_complete_reset):
-        print(message)
+        self.logger.info(message)
         env_complete_reset = torch.cat(
             (env_complete_reset, torch.tensor([env_count])), axis=0
         )
@@ -233,7 +236,7 @@ class EnvReset:
 
             env_ids = torch.cat((env_list_reset_arm_pose, env_complete_reset), axis=0)
             env_ids = env_ids.to(self.device).type(torch.long)
-            pos1 = self.reset_pre_grasp_pose(
+            pos1 = self.reset_random_pick_pose(
                 env_list_reset_arm_pose.to(self.device).type(torch.long)
             )
             pos2 = self.reset_init_arm_pose(
@@ -245,7 +248,7 @@ class EnvReset:
 
         elif len(env_list_reset_arm_pose) != 0:
             env_list_reset_arm_pose = torch.unique(env_list_reset_arm_pose)
-            pos = self.reset_pre_grasp_pose(
+            pos = self.reset_random_pick_pose(
                 env_list_reset_arm_pose.to(self.device).type(torch.long)
             )
 

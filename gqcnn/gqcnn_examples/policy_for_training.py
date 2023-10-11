@@ -102,17 +102,6 @@ class dexnet3:
             grasps_and_predictions, key=lambda x: x[1], reverse=True
         )
         unsorted_grasps_and_predictions = list(zip(grasps, q_values))
-        # std_dev_np = np.array([])
-
-        # for i in range(num_grasps):
-        #     print(f"action coordinates --> ({grasps_and_predictions[i][0].center.x}, {grasps_and_predictions[i][0].center.y}) score --> {grasps_and_predictions[i][1]}")
-        #     print(f"action angle: {grasps_and_predictions[i][0].axis*180/np.pi}")
-        # std_dev_np = np.append(std_dev_np, grasps_and_predictions[i][2])
-
-        # print("std_dev: ", np.std(std_dev_np))
-        # print("mean: ", np.mean(std_dev_np))
-
-        # self.logger.info("Planning took %.3f sec" % (time.time() - policy_start))
 
         # Vis final grasp.
         # policy_config["vis"]["final_grasp"] = 0
