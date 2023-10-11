@@ -26,8 +26,8 @@ def visualize_point_cloud(point_cloud):
 def depth_to_point_cloud(depth_image):
     cx = depth_image.shape[1] / 2
     cy = depth_image.shape[0] / 2
-    fx = 762.7223
-    fy = 762.7223
+    fx = 914.0148
+    fy = 914.0148
     height, width = depth_image.shape
     x = np.linspace(0, width - 1, width)
     y = np.linspace(0, height - 1, height)
@@ -70,8 +70,9 @@ def add_noise_to_xyz(xyz_img, depth_img):
 id = -1
 # Specify the path to the simulated data directory here.
 # You can add multiple paths to the list.
-PATH_list = ["2023-10-09T180026-CyOJlX-grasp_data_3F/"]
+PATH_list = ["test_grasp_data/"]
 output_dir = "src/data/Processed_Data/"
+os.makedirs(output_dir, exist_ok=True)
 raw_data_dir = "../scenario_grasp_configurations/"
 
 bin_back = 1.225
