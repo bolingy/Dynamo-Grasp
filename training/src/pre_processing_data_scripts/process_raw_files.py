@@ -27,7 +27,7 @@ def depth_to_point_cloud(depth_image):
     cx = depth_image.shape[1] / 2
     cy = depth_image.shape[0] / 2
     fx = 914.0148
-    fy = 914.0148
+    fy = 914.0147
     height, width = depth_image.shape
     x = np.linspace(0, width - 1, width)
     y = np.linspace(0, height - 1, height)
