@@ -89,15 +89,6 @@ class SampleGrasp:
         self.object_target_id[env_count] = (
             torch.tensor(random_object_select).to(self.device).type(torch.int)
         )
-        rgb_image = self.get_rgb_image(env_count, camera_id=0)
-        self.rgb_save[env_count] = (
-            rgb_image[
-                self.crop_coord[0] : self.crop_coord[1],
-                self.crop_coord[2] : self.crop_coord[3],
-            ]
-            .cpu()
-            .numpy()
-        )
         depth_image = self.get_depth_image(env_count, camera_id=0)
         segmask_dexnet = segmask.clone().detach()
         self.segmask_save[env_count] = (
@@ -140,7 +131,7 @@ class SampleGrasp:
             self.crop_coord[0] : self.crop_coord[1],
             self.crop_coord[2] : self.crop_coord[3],
         ]
-        # saving depth image, rgb image and segmentation mask only once before sampling grasp points
+        # saving depth image and segmentation mask only once before sampling grasp points
         self.config_env_count[env_count] += torch.tensor(1).type(torch.int)
 
         env_number = env_count
@@ -154,19 +145,10 @@ class SampleGrasp:
         save_dir_segmask_npy = os.path.join(
             new_dir_path, f"segmask_{env_number}_{env_config}.npy"
         )
-        save_dir_rgb_npy = os.path.join(
-            new_dir_path, f"rgb_{env_number}_{env_config}.npy"
-        )
-        save_dir_rgb_png = os.path.join(
-            new_dir_path, f"rgb_{env_number}_{env_config}.png"
-        )
-        Image.fromarray(self.rgb_save[env_count]).save(save_dir_rgb_png)
         with open(save_dir_depth_npy, "wb") as f:
             np.save(f, self.depth_image_save[env_count])
         with open(save_dir_segmask_npy, "wb") as f:
             np.save(f, self.segmask_save[env_count])
-        with open(save_dir_rgb_npy, "wb") as f:
-            np.save(f, self.rgb_save[env_count])
 
         # cropping the image and modifying depth to match the DexNet 3.0 input configuration
         # Adjusting depth for DexNet: adding dexnet_thresh_offset to ensure depth is between 0.5 and 0.7 m
@@ -228,7 +210,6 @@ class SampleGrasp:
                 ) = self.suction_score_object.calculator(
                     depth_image_suction,
                     segmask,
-                    rgb_image,
                     self.grasps_and_predictions[i][0],
                     self.object_target_id[env_count],
                     offset,

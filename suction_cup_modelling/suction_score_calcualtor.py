@@ -12,7 +12,7 @@ class calcualte_suction_score:
         self.flexion_deofrmation_thresh = 0.008
         self.device = "cuda:0"
 
-    def convert_rgb_depth_to_point_cloud(self):
+    def convert_depth_to_point_cloud(self):
         camera_u = torch.arange(0, self.camera_intrinsics.width, device=self.device)
         camera_v = torch.arange(0, self.camera_intrinsics.height, device=self.device)
         camera_v, camera_u = torch.meshgrid(camera_v, camera_u, indexing="ij")
@@ -76,13 +76,13 @@ class calcualte_suction_score:
         return point_cloud_suction
 
     def calculator(
-        self, depth_image, segmask, rgb_img, grasps_and_predictions, object_id, offset
+        self, depth_image, segmask, grasps_and_predictions, object_id, offset
     ):
         """
         Compute suction score and pose adjustments for robotic arm during suction-based manipulation.
 
         Parameters:
-        - depth_image, segmask, rgb_img: Input image data for processing.
+        - depth_image, segmask: Input image data for processing.
         - grasps_and_predictions: sample points obtained from dexnet method.
         - object_id: Identifier for the target object.
         - offset: Offset for compensating the cropping of the image.
@@ -95,7 +95,6 @@ class calcualte_suction_score:
         """
         self.depth_image = depth_image
         self.segmask = segmask
-        self.rgb_img = rgb_img
         self.grasps_and_predictions = grasps_and_predictions
         self.object_id = object_id
         self.pre_grasp_pose_x = torch.min(depth_image)
@@ -113,7 +112,7 @@ class calcualte_suction_score:
         centroid_angle = torch.tensor([0, 0, 0]).to(self.device)
 
         # Refine segmask and calculate centroid using point cloud median
-        points = self.convert_rgb_depth_to_point_cloud()
+        points = self.convert_depth_to_point_cloud()
         centroid_point = torch.FloatTensor(
             [
                 torch.median(points[:, 0]),
@@ -303,7 +302,7 @@ class calcualte_suction_score:
         self.depth_image[self.segmask != self.object_id] = 0
         self.depth_image = torch.nan_to_num(self.depth_image, nan=0)
         # Centroid method using median of point cloud
-        points = self.convert_rgb_depth_to_point_cloud()
+        points = self.convert_depth_to_point_cloud()
         centroid_point = torch.FloatTensor(
             [
                 torch.median(points[:, 0]),

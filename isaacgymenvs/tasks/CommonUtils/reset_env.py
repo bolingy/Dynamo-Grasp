@@ -274,8 +274,6 @@ class EnvReset:
 
     def check_reset_conditions(self, env_count, env_complete_reset):
         segmask = self.get_segmask(env_count, camera_id=0)
-        rgb_image = self.get_rgb_image(env_count, camera_id=0)
-        depth_image = self.get_depth_image(env_count, camera_id=0)
 
         # Cropping bin area from the segmask
         segmask_bin_crop = segmask[

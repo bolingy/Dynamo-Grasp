@@ -21,7 +21,6 @@ class EvlauateSuccess:
                 self.action_contrib[env_count] -= 1
 
                 # Gripper camera
-                rgb_image_copy_gripper = self.get_rgb_image(env_count, camera_id=1)
                 segmask_gripper = self.get_segmask(env_count, camera_id=1)
                 depth_image = self.get_depth_image(env_count, camera_id=1)
                 depth_numpy_gripper = depth_image.clone().detach()
@@ -33,7 +32,6 @@ class EvlauateSuccess:
                 ) = self.suction_score_object_gripper.calculator(
                     depth_numpy_gripper,
                     segmask_gripper,
-                    rgb_image_copy_gripper,
                     None,
                     self.object_target_id[env_count],
                     offset,
@@ -58,7 +56,6 @@ class EvlauateSuccess:
             ):
                 self.force_encounter[env_count] = 1
                 # Gripper camera
-                rgb_image_copy_gripper = self.get_rgb_image(env_count, camera_id=1)
                 segmask_gripper = self.get_segmask(env_count, camera_id=1)
                 depth_image = self.get_depth_image(env_count, camera_id=1)
                 depth_numpy_gripper = depth_image.clone().detach()
@@ -66,7 +63,6 @@ class EvlauateSuccess:
                 score_gripper, _, _ = self.suction_score_object_gripper.calculator(
                     depth_numpy_gripper,
                     segmask_gripper,
-                    rgb_image_copy_gripper,
                     None,
                     self.object_target_id[env_count],
                     offset,

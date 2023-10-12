@@ -25,7 +25,7 @@ conda activate myenv
 ```bash
 pip install -e .
 
-# Create a folder inside the repo for saving the data(grasp point properties, depth image, segmentation mask and rgb image),
+# Create a folder inside the repo for saving the data(grasp point properties, depth image, segmentation mask image),
 mkdir scenario_grasp_configurations
 ```
 

@@ -132,7 +132,6 @@ class InitVariablesConfigs(VecTask):
 
         # Establishing directories for storing data results
         self.force_list = np.array([])
-        self.rgb_camera_visualization = None
         self.dexnet_coordinates = np.array([])
         self.grasp_angle = torch.tensor([[0, 0, 0]])
         self.grasps_and_predictions = None
@@ -192,7 +191,6 @@ class InitVariablesConfigs(VecTask):
         self.force_list_save = {}
         self.depth_image_save = {}
         self.segmask_save = {}
-        self.rgb_save = {}
         self.grasp_point_save = {}
         self.grasp_angle_save = {}
         self.dexnet_score_save = {}

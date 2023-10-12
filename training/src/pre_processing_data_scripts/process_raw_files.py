@@ -179,7 +179,7 @@ for path in PATH_list:
         )
         input_data_augment = input_data_augment.astype(np.double)
 
-        # flip rgb depth and segmask
+        # flip depth image and segmask
         input_data_augment_flip = flip_segmask_depth(depth_processed, segmask_processed)
 
         os.makedirs(output_dir + parts_[-2], exist_ok=True)
