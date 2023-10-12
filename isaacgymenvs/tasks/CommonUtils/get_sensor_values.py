@@ -7,6 +7,7 @@ class GetSensorValues:
     """
     This method is used to get the sensor values (force and camera images) from the gym environment
     """
+
     def __init__(self) -> None:
         pass
 
@@ -34,6 +35,19 @@ class GetSensorValues:
         )
         torch_mask_tensor = gymtorch.wrap_tensor(mask_camera_tensor)
         return torch_mask_tensor.to(self.device)
+
+    def get_rgb_image(self, env_count, camera_id):
+        rgb_camera_tensor = self.gym.get_camera_image_gpu_tensor(
+            self.sim,
+            self.envs[env_count],
+            self.camera_handles[env_count][camera_id],
+            gymapi.IMAGE_COLOR,
+        )
+        torch_rgb_tensor = gymtorch.wrap_tensor(rgb_camera_tensor)
+        rgb_image_unflattened = torch_rgb_tensor.to(self.device)
+        return torch.reshape(
+            rgb_image_unflattened, (rgb_image_unflattened.shape[0], -1, 4)
+        )[..., :3]
 
     def get_depth_image(self, env_count, camera_id):
         depth_camera_tensor = self.gym.get_camera_image_gpu_tensor(
