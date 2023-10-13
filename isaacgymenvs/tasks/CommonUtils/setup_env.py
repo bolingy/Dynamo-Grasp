@@ -220,7 +220,8 @@ class EnvSetup:
                             ur16e_start_pose,
                             env_ptr,
                             i,
-                            color=[1.0, 0.96, 0.18],
+                            # color=[1.0, 0.96, 0.18],
+                            color=[0.6, 0.6, 0.6],
                             mesh_visual_only=False,
                         )
                     else:
