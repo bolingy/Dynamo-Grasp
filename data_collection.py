@@ -19,7 +19,7 @@ def get_data_path():
     datetime_string = datetime.now().isoformat().replace(":", "")[:-7]
     random_string = "".join(random.choice(string.ascii_letters) for _ in range(6))
     temp_path = (
-        f"scenario_grasp_configurations/{datetime_string}-{random_string}-grasp_data/"
+        f"{os.getcwd()}/scenario_grasp_configurations/{datetime_string}-{random_string}-grasp_data/"
     )
     return os.path.expanduser(temp_path)
 
