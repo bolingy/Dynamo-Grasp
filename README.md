@@ -6,6 +6,8 @@ DYNAMO-GRASP demonstrates a strong ability to adapt to complex and unexpected ob
 
 This repository provides the codebase for collecting data through simulation. These scripts will help users to generate their own datasets, further enhancing the extensibility and usefulness of DYNAMO-GRASP.
 
+For more information please refer to our [project website](https://sites.google.com/view/dynamo-grasp)
+
 ## Table of Contents
 
 1. [Installation](#installation)
