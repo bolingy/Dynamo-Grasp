@@ -17,14 +17,4 @@ fi
 # Construct and export LD_LIBRARY_PATH
 export LD_LIBRARY_PATH=${CONDA_PREFIX}/lib
 
-# Check for the correct number of arguments and provide a helpful usage message if incorrect
-if [ "$#" -lt 2 ]; then
-    echo "Error: Incorrect number of arguments"
-    echo "Usage: $0 --num-envs NUM_ENVS"
-    echo
-    echo "    NUM ENVS  : Integer representing the number of environments to run."
-    echo "                Select this number based on your computational resources."
-    exit 1
-fi
-
 python data_collection.py "$@"
