@@ -28,7 +28,7 @@ def get_data_path():
 
 
 @click.command()
-@click.option("--num-envs", default=1)
+@click.option("--num-envs", default=1, prompt="Number of environments to spawn in parallel")
 @filepath_option("--data-path", default=get_data_path())
 def generate(num_envs: int, data_path: str):
     envs = isaacgymenvs.make(
@@ -40,7 +40,7 @@ def generate(num_envs: int, data_path: str):
         multi_gpu=True,
         headless=False,
         graphics_device_id=0,
-        data_path=data_path,
+        data_path=data_path or get_data_path(),
     )
     obs = envs.reset()
 
