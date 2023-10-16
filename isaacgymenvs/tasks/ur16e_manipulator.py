@@ -1,5 +1,7 @@
-import torch
+import os
 import logging
+
+import torch
 from isaacgymenvs.utils.torch_jit_utils import *
 
 
@@ -86,6 +88,8 @@ class UR16eManipulation(
         handler = logging.FileHandler('/tmp/dynamo_grasp_log.txt')
         self.logger = logging.getLogger("DYNAMO-GRASP")
         self.logger.addHandler(handler)
+
+        os.makedirs(data_path, exist_ok=True)
 
         InitVariablesConfigs.__init__(
             self,
