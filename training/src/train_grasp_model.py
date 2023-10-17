@@ -160,11 +160,6 @@ class GraspDataset(Dataset):
         trans = transforms.Compose([transforms.ToTensor()])
         input_transformed = trans(input_data)
 
-        segmask_processed = input_data[:, :, 0]
-        segmask_processed = np.reshape(
-            segmask_processed, (segmask_processed.shape[1], segmask_processed.shape[0])
-        )
-
         return input_transformed, label_image
 
     def depth_to_point_cloud(self, depth_image):

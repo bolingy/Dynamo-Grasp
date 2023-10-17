@@ -16,6 +16,6 @@ First, pre-process the data using `process_raw_files.py`. <br/>
 Then, utilize `train_grasp_model.py` for training.<br/>
 ```bash
 cd training
-python src/process_raw_files.py
+python src/pre_processing_data_scripts/process_raw_files.py
 python src/train_grasp_model.py
 ```

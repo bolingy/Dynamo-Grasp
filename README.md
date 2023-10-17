@@ -6,31 +6,6 @@ DYNAMO-GRASP demonstrates a strong ability to adapt to complex and unexpected ob
 
 This repository provides the codebase for collecting data through simulation. These scripts will help users to generate their own datasets, further enhancing the extensibility and usefulness of DYNAMO-GRASP.
 
-## Table of Contents
+For more information please refer to our [project website](https://sites.google.com/view/dynamo-grasp)
 
-1. [Installation](#installation)
-2. [Running the Project](#running)
-
-## Installation
-
-Follow these steps for the installation:
-
-```bash
-# Create a conda environment with Python version 3.8
-conda create -n myenv python=3.8
-conda activate myenv
-```
-
-
-```bash
-pip install -e .
-
-# Create a folder inside the repo for saving the data(grasp point properties, depth image, segmentation mask image),
-mkdir scenario_grasp_configurations
-```
-
-## Running
-To run the project, use the dynamo_grasp.sh bash script:
-```bash
-./dynamo_grasp.sh --num-envs 50
-```
+For installation and usage instructions, please refer to the [documentation](docs/build/html/index.html)

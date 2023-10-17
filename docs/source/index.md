@@ -20,6 +20,7 @@ DYNAMO GRASP introduces a novel approach to suction grasp point detection, combi
  - [Publication](publications.md) <br/>
  - [Installation](installation.md) <br/>
  - [Getting Started](usage.md) <br/>
+ - [Pre Trained Models](pre-trained-models.md) <br/>
  - [Dataset](dataset.md) <br/>
  - [Training](training.md) <br/>
  - [License](license.md) <br/>
@@ -39,6 +40,7 @@ publications.md
 
 installation.md
 usage.md
+pre-trained-models.md
 
 ```
 
